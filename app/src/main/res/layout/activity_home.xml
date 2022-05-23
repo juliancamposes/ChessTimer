@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home">
+
+    <!-- Guides -->
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/home_vg_05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
+        android:id="@+id/home_vg_95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/home_hg_05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45"
+        android:id="@+id/home_hg_45"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55"
+        android:id="@+id/home_hg_55"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        android:id="@+id/home_hg_95"/>
+
+    <TextView
+        android:id="@+id/home_tv_time_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3:00"
+        android:textColor="@color/white"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_95"
+        app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
+        app:layout_constraintStart_toStartOf="@+id/home_vg_05"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_55" />
+
+    <!-- Bottons -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/home_btn_player_1"
+        android:layout_width="375dp"
+        android:layout_height="276dp"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toBottomOf="@id/home_hg_95"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_95"
+        app:layout_constraintStart_toEndOf="@id/home_vg_05"
+        app:layout_constraintTop_toTopOf="@id/home_hg_55" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/home_btn_player_2"
+        android:layout_width="375dp"
+        android:layout_height="276dp"
+        app:layout_constraintBottom_toBottomOf="@id/home_hg_45"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_95"
+        app:layout_constraintStart_toEndOf="@id/home_vg_05"
+        app:layout_constraintTop_toTopOf="@id/home_hg_05"
+        android:textSize="80sp"
+        android:rotation="180"/>
+
+    <!-- Icons -->
+    <ImageButton
+        android:id="@+id/home_btn_configure_timer"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
+        android:src="@drawable/configure"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
+        app:layout_constraintStart_toStartOf="@+id/home_vg_05"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45"/>
+
+    <ImageButton
+        android:id="@+id/home_btn_play_timer"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
+        android:src="@drawable/play_timer"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintEnd_toStartOf="@+id/home_btn_configure_timer"
+        app:layout_constraintStart_toStartOf="@+id/home_vg_05"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45" />
+
+    <ImageButton
+        android:id="@+id/home_btn_pause_timer"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
+        android:src="@drawable/pause_timer"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
+        app:layout_constraintStart_toEndOf="@+id/home_btn_configure_timer"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
