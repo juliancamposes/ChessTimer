@@ -6,4 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".SetTimer">
 
+    <!-- Guidelines -->
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/set_timer_vg_10"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35"
+        android:id="@+id/set_timer_vg_37"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65"
+        android:id="@+id/set_timer_vg_67"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
+        android:id="@+id/set_timer_vg_90"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9"
+        android:id="@+id/set_timer_hg_90"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_90"
+        app:layout_constraintStart_toEndOf="@id/set_timer_vg_10"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
+        android:text="5:00"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        app:cornerRadius="10sp"
+        android:id="@+id/set_timer_btn_4"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_90"
+        app:layout_constraintStart_toEndOf="@id/set_timer_vg_37"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_67"
+        android:text="10:00"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        app:cornerRadius="10sp"
+        android:id="@+id/set_timer_btn_5"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_90"
+        app:layout_constraintStart_toEndOf="@id/set_timer_vg_67"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_90"
+        app:icon="@drawable/configure"
+        app:iconTint="@color/white"
+        app:iconSize="38sp"
+        app:iconGravity="textEnd"
+        android:textColor="@color/white"
+        app:cornerRadius="10sp"
+        android:id="@+id/set_timer_btn_customize"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
