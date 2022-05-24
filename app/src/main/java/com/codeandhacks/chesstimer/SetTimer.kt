@@ -25,6 +25,7 @@ class SetTimer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_timer)
+
     }
 
     override fun onResume() {
@@ -168,11 +169,11 @@ class SetTimer : AppCompatActivity() {
 
             if(binding.setTimerSelectorIncrement.isChecked){
                 //Alert dialog to chose the increment
-
+                incrementToSave = binding.setTimerEtIncrement.text.toString().toInt()
             }
 
             if(binding.setTimerSelectorIncrement.isChecked == false){
-                increment = 0
+                incrementToSave = 0
             }
         }
 
@@ -187,7 +188,6 @@ class SetTimer : AppCompatActivity() {
             hoursToSave = binding.setTimerHours.text.toString().toInt()
             minutesToSave = binding.setTimerMinutes.text.toString().toInt()
             secondsToSave = binding.setTimerSeconds.text.toString().toInt()
-            incrementToSave = 0
 
             val timeValues = TimeValues(1, hoursToSave, minutesToSave, secondsToSave, incrementToSave)
 

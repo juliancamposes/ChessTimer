@@ -199,7 +199,33 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/set_timer_hg_30"
         app:layout_constraintBottom_toTopOf="@id/set_timer_hg_50"
-        app:layout_constraintStart_toStartOf="@+id/set_timer_vg_67" />
+        app:layout_constraintEnd_toStartOf="@+id/set_timer_vg_67" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/set_timer_selector_increment"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_30"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_50"
+        android:inputType="number"
+        android:text="0"
+        android:textSize="20sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:id="@+id/set_timer_et_increment"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/set_timer_et_increment"
+        app:layout_constraintEnd_toEndOf="@id/set_timer_vg_90"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_30"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_50"
+        android:text="seconds"
+        android:textColor="@color/white"
+        android:id="@+id/set_timer_tv_minutes"/>
+
 
     <ImageButton
         android:layout_width="wrap_content"

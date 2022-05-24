@@ -3,10 +3,12 @@ package com.codeandhacks.chesstimer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.widget.ImageButton
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +35,8 @@ class Home : AppCompatActivity() {
     private var minutes = 5
     private var seconds = 0
     private var increment = 0
+    private var incrementPlayer1 = 0L
+    private var incrementPlayer2 = 0L
     private val context = this
     private var statusPause = 0
 
@@ -45,6 +49,7 @@ class Home : AppCompatActivity() {
         minutes = extra.get("minutes") as Int
         seconds = extra.get("seconds") as Int
         increment = extra.get("increment") as Int
+        Log.d(TAG, increment.toString())
 
     }
 
@@ -73,9 +78,6 @@ class Home : AppCompatActivity() {
         if (status != 3){
             binding.homeBtnConfigureTimer.isEnabled = false
         }
-
-
-
 
         //Setting the time (if it have started or not)
         if (timePlayer1Milis == -1L){
@@ -293,11 +295,20 @@ class Home : AppCompatActivity() {
                         timerPlayer1.cancel()
                         status = 3
                         statusPause = 1
+                        val alarma = MediaPlayer.create(context, R.raw.alarma)
+                        Handler().postDelayed({
+                            alarma.start()
+                        }, 1000)
+                        alarma.stop()
                     }
 
                 }.start()
                 //Change the status
                 status = 2
+
+                //Increment
+                val incrementPlayer1 = (increment * 1000).toLong()
+                timePlayer1Milis += incrementPlayer1
             }
 
             if (status == 1) {
@@ -316,6 +327,7 @@ class Home : AppCompatActivity() {
                         var timeHours = p0 / 60 /60 / 1000
                         var timeMinutes = p0 / 60 / 1000 % 60
                         var timeSeconds = p0 / 1000 % 60
+
 
                         if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
                             var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
@@ -361,11 +373,20 @@ class Home : AppCompatActivity() {
                         timerPlayer1.cancel()
                         status = 3
                         statusPause = 1
+                        val alarma = MediaPlayer.create(context, R.raw.alarma)
+                        Handler().postDelayed({
+                            alarma.start()
+                        }, 1000)
+                            alarma.stop()
+
                     }
 
                 }.start()
                 //Change the status
                 status = 2
+                //Increment
+                val incrementPlayer1 = (increment * 1000).toLong()
+                timePlayer1Milis += incrementPlayer1
             }
         }
 
@@ -428,11 +449,19 @@ class Home : AppCompatActivity() {
                         timerPlayer2.cancel()
                         status = 3
                         statusPause = 1
+                        val alarma = MediaPlayer.create(context, R.raw.alarma)
+                        Handler().postDelayed({
+                            alarma.start()
+                        }, 1000)
+                        alarma.stop()
                     }
 
                 }.start()
                 //Change the status
                 status = 1
+                //Increment
+                val incrementPlayer2 = (increment * 1000).toLong()
+                timePlayer2Milis += incrementPlayer2
             }
 
             if (status == 2) {
@@ -497,11 +526,19 @@ class Home : AppCompatActivity() {
                         binding.homeBtnPlayer2.isEnabled = false
                         status = 3
                         statusPause = 1
+                        val alarma = MediaPlayer.create(context, R.raw.alarma)
+                        Handler().postDelayed({
+                            alarma.start()
+                        }, 1000)
+                        alarma.stop()
                     }
 
                 }.start()
                 //Change the status
                 status = 1
+                //Increment
+                val incrementPlayer2 = (increment * 1000).toLong()
+                timePlayer2Milis += incrementPlayer2
             }
         }
 
