@@ -4,6 +4,7 @@
     package="com.codeandhacks.chesstimer">
 
     <application
+        android:name=".database.Application.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,9 +19,6 @@
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".Home_set"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

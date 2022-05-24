@@ -4,7 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import com.codeandhacks.chesstimer.database.Application.App
+import com.codeandhacks.chesstimer.database.dao.TimeValuesDao
+import com.codeandhacks.chesstimer.database.entities.TimeValues
 import com.codeandhacks.chesstimer.databinding.ActivitySetTimerBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SetTimer : AppCompatActivity() {
     private lateinit var binding : ActivitySetTimerBinding
@@ -170,12 +177,8 @@ class SetTimer : AppCompatActivity() {
 
         binding.setTimerBtnBack.setOnClickListener{
             val intent = Intent(this, Home::class.java)
-            intent.putExtra("Hours", hoursToSave)
-            intent.putExtra("Minutes", minutesToSave)
-            intent.putExtra("Seconds", secondsToSave)
-            intent.putExtra("Increment", incrementToSave)
-
             startActivity(intent)
+            finish()
             //putExtras
         }
 
@@ -184,6 +187,20 @@ class SetTimer : AppCompatActivity() {
             minutesToSave = binding.setTimerMinutes.text.toString().toInt()
             secondsToSave = binding.setTimerSeconds.text.toString().toInt()
             incrementToSave = 0
+
+            val timeValues = TimeValues(1, hoursToSave, minutesToSave, secondsToSave, incrementToSave)
+
+            lifecycleScope.launch{
+                withContext(Dispatchers.IO){
+                    val timeValuesPrev = App.getDB().timeValuesDao().findFirst()
+                    if(timeValuesPrev != null){
+                        App.getDB().timeValuesDao().updateValues(timeValues)
+                    } else {
+                        App.getDB().timeValuesDao().insertValues(timeValues)
+                    }
+
+                }
+            }
 
         }
     }

@@ -7,7 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import com.codeandhacks.chesstimer.database.Application.App
 import com.codeandhacks.chesstimer.databinding.ActivityHomeBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.sql.Time
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timer
@@ -40,12 +45,24 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        val extras = intent.extras!!
-        hours = extras.get("Hours") as Int
-        minutes = extras.get("Minutes") as Int
-        seconds = extras.get("Seconds") as Int
-        increment = extras.get("Increment") as Int
 
+        lifecycleScope.launchWhenStarted{
+            withContext(Dispatchers.IO){
+                val timeValuesPrev = App.getDB().timeValuesDao().findFirst()
+                if(timeValuesPrev != null){
+                    hours = timeValuesPrev.hour
+                    minutes = timeValuesPrev.minutes
+                    seconds = timeValuesPrev.seconds
+                    increment = timeValuesPrev.increment
+                } else {
+                    hours = 0
+                    minutes = 5
+                    seconds = 0
+                    increment = 0
+                }
+
+            }
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -73,112 +90,151 @@ class Home : AppCompatActivity() {
             binding.homeBtnConfigureTimer.isEnabled = false
         }
 
-        val hoursI = hours.toInt()
-        val minutesI = minutes.toInt()
-        val secondsI = seconds.toInt()
-        val incrementI = increment.toInt()
-
         if (timePlayer1Milis == -1L){
-            hoursPlayer1 = (hoursI * 60 * 60).toLong()
-            minutesPlayer1 = (minutesI * 60).toLong()
-            secondsPlayer1 = (secondsI).toLong()
-            hoursPlayer1Milis = hoursPlayer1*1000
-            minutesPlayer1Milis = minutesPlayer1*1000
-            secondsPlayer1Milis = secondsPlayer1*1000
-            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis
+            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer1 = (minutes * 60 * 1000).toLong()
+            secondsPlayer1 = (seconds * 1000).toLong()
+            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
         }
 
         if(timePlayer1Milis > 0L){
-            hoursPlayer1Milis = timePlayer1Milis / 1000
-            minutesPlayer1Milis = timePlayer1Milis / 60
-            secondsPlayer1Milis = timePlayer1Milis
-            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis
+            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer1 = (minutes * 60 * 1000).toLong()
+            secondsPlayer1 = (seconds * 1000).toLong()
+            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
         }
 
         if (timePlayer2Milis == -1L){
-            hoursPlayer2 = (hoursI * 60 * 60).toLong()
-            minutesPlayer2 = (minutesI * 60).toLong()
-            secondsPlayer2 = (secondsI).toLong()
-            hoursPlayer2Milis = hoursPlayer2*1000
-            minutesPlayer2Milis = minutesPlayer2*1000
-            secondsPlayer2Milis = secondsPlayer2*1000
-            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis
+            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer2 = (minutes * 60 * 1000).toLong()
+            secondsPlayer2 = (seconds * 1000).toLong()
+            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
 
         if(timePlayer2Milis > 0L){
-            hoursPlayer2Milis = timePlayer2Milis / 1000
-            minutesPlayer2Milis = timePlayer2Milis / 60
-            secondsPlayer2Milis = timePlayer2Milis
-            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis
+            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer2 = (minutes * 60 * 1000).toLong()
+            secondsPlayer2 = (seconds * 1000).toLong()
+            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
 
-
-
+        var timeHoursAmbos = timePlayer1Milis / 60 /60 / 1000
+        var timeMinutesAmbos = timePlayer1Milis / 60 / 1000 % 60
+        var timeSecondsAmbos = timePlayer1Milis / 1000 % 60
 
         //Text for the bottons at the beggining
-        if(hoursPlayer1 == 0L && minutesPlayer1/60 >= 10){
-            binding.homeBtnPlayer1.text = "${minutesPlayer1/60}:$secondsPlayer1"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos >= 10){
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer1 == 0L && minutesPlayer1/60 < 10){
-            binding.homeBtnPlayer1.text = "0${minutesPlayer1/60}:$secondsPlayer1"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos >= 10 && timeSecondsAmbos < 10){
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "${timeMinutes}:0$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer1 == 0L && minutesPlayer1/60 < 10 && secondsPlayer1 < 10){
-            binding.homeBtnPlayer1.text = "0${minutesPlayer1/60}:0$secondsPlayer1"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos < 10){
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "0${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer1/3600 == 1L && minutesPlayer1/60 >= 10){
-            binding.homeBtnPlayer1.text = "${hoursPlayer1/3600}.${minutesPlayer1/60}:$secondsPlayer1"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos < 10 && timeSecondsAmbos < 10){
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "0${timeMinutes}:0$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer1/3600 == 1L && minutesPlayer1/60 < 10){
-            binding.homeBtnPlayer1.text = "${hoursPlayer1/3600}.0${minutesPlayer1/60}:$secondsPlayer1"
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos >= 10){
+            var timeHours = timePlayer1Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "${timeHours}.${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer1/3600 == 1L && minutesPlayer1/60 < 10 && secondsPlayer1 < 10){
-            binding.homeBtnPlayer1.text = "${hoursPlayer1/3600}.0${minutesPlayer1/60}:0$secondsPlayer1"
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos < 10){
+            var timeHours = timePlayer1Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "${timeHours}.0${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer1.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2 == 0L && minutesPlayer2/60 >= 10){
-            binding.homeBtnPlayer2.text = "${minutesPlayer2/60}:$secondsPlayer2"
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos < 10 && timeSecondsAmbos < 10){
+            var timeHours = timePlayer1Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer1Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer1Milis  / 1000 % 60
+            binding.homeBtnPlayer1.text = "${timeHours}.0${timeMinutes}:0$timeSeconds"
+            binding.homeBtnPlayer1.setTextColor(Color.WHITE)
+        }
+
+        if(timeHoursAmbos == 0L && timeMinutesAmbos >= 10){
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2 == 0L && minutesPlayer2/60 < 10){
-            binding.homeBtnPlayer2.text = "0${minutesPlayer2/60}:$secondsPlayer2"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos >= 10 && timeSecondsAmbos < 10){
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "${timeMinutes}:0$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2 == 0L && minutesPlayer2/60 < 10 && secondsPlayer2 < 10){
-            binding.homeBtnPlayer2.text = "0${minutesPlayer2/60}:0$secondsPlayer2"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos < 10){
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "0${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2/3600 == 1L && minutesPlayer2/60 >= 10){
-            binding.homeBtnPlayer2.text = "${hoursPlayer1/3600}.${minutesPlayer2/60}:$secondsPlayer2"
+        if(timeHoursAmbos == 0L && timeMinutesAmbos < 10 && timeSecondsAmbos < 10){
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "0${timeMinutes}:0$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2/3600 == 1L && minutesPlayer2/60 < 10){
-            binding.homeBtnPlayer2.text = "${hoursPlayer1/3600}.0${minutesPlayer2/60}:$secondsPlayer2"
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos >= 10){
+            var timeHours = timePlayer2Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "${timeHours}.${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
-        if(hoursPlayer2/3600 == 1L && minutesPlayer2/60 < 10 && secondsPlayer2 < 10){
-            binding.homeBtnPlayer2.text = "${hoursPlayer1/3600}.0${minutesPlayer2/60}:0$secondsPlayer2"
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos < 10){
+            var timeHours = timePlayer2Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "${timeHours}.0${timeMinutes}:$timeSeconds"
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos < 10 && timeSecondsAmbos < 10){
+            var timeHours = timePlayer2Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "${timeHours}.0${timeMinutes}:0$timeSeconds"
+            binding.homeBtnPlayer2.setTextColor(Color.WHITE)
+        }
 
+        if(timeHoursAmbos >= 1L && timeMinutesAmbos >= 10 && timeSecondsAmbos < 10){
+            var timeHours = timePlayer2Milis / 60 /60 / 1000
+            var timeMinutes = timePlayer2Milis  / 60 / 1000 % 60
+            var timeSeconds = timePlayer2Milis  / 1000 % 60
+            binding.homeBtnPlayer2.text = "$timeHours.$timeMinutes:0$timeSeconds"
+            binding.homeBtnPlayer2.setTextColor(Color.WHITE)
+        }
 
-        //Show the timer
 
         //Buttons actions
 
@@ -332,6 +388,7 @@ class Home : AppCompatActivity() {
                         var timeHours = p0 / 60 /60 / 1000
                         var timeMinutes = p0 / 60 / 1000 % 60
                         var timeSeconds = p0 / 1000 % 60
+
 
                         if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
                             var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
