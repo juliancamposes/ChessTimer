@@ -15,6 +15,9 @@
         android:theme="@style/Theme.ChessTimer"
         tools:targetApi="31">
         <activity
+            android:name=".Restart"
+            android:exported="false" />
+        <activity
             android:name=".SetTimer"
             android:exported="false" />
         <activity

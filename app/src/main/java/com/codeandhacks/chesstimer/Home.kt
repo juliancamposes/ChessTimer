@@ -3,19 +3,18 @@ package com.codeandhacks.chesstimer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.widget.ImageButton
 import androidx.lifecycle.lifecycleScope
 import com.codeandhacks.chesstimer.database.Application.App
 import com.codeandhacks.chesstimer.databinding.ActivityHomeBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.Time
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timer
+
 
 class Home : AppCompatActivity() {
     private lateinit var binding : ActivityHomeBinding
@@ -25,27 +24,22 @@ class Home : AppCompatActivity() {
     private var hoursPlayer1 = -1L
     private var minutesPlayer1 = -1L
     private var secondsPlayer1 = -1L
-    private var hoursPlayer1Milis = -1L
-    private var minutesPlayer1Milis = -1L
-    private var secondsPlayer1Milis = -1L
     private var timePlayer1Milis = -1L
     private var hoursPlayer2 = -1L
     private var minutesPlayer2 = -1L
     private var secondsPlayer2 = -1L
-    private var hoursPlayer2Milis = -1L
-    private var minutesPlayer2Milis = -1L
-    private var secondsPlayer2Milis = -1L
     private var timePlayer2Milis = -1L
     private var hours = 0
     private var minutes = 5
     private var seconds = 0
     private var increment = 0
+    private val context = this
+    private var statusPause = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
         lifecycleScope.launchWhenStarted{
             withContext(Dispatchers.IO){
                 val timeValuesPrev = App.getDB().timeValuesDao().findFirst()
@@ -72,10 +66,11 @@ class Home : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
+
         //Set the buttons color at the beggining
         binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
         binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
-
 
 
         //Configure the timer
@@ -90,6 +85,10 @@ class Home : AppCompatActivity() {
             binding.homeBtnConfigureTimer.isEnabled = false
         }
 
+
+
+
+        //Setting the time (if it have started or not)
         if (timePlayer1Milis == -1L){
             hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
             minutesPlayer1 = (minutes * 60 * 1000).toLong()
@@ -117,6 +116,8 @@ class Home : AppCompatActivity() {
             secondsPlayer2 = (seconds * 1000).toLong()
             timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
+
+        //Converting to show
 
         var timeHoursAmbos = timePlayer1Milis / 60 /60 / 1000
         var timeMinutesAmbos = timePlayer1Milis / 60 / 1000 % 60
@@ -301,6 +302,8 @@ class Home : AppCompatActivity() {
                         binding.homeBtnPlayer1.isEnabled = false
                         binding.homeBtnPlayer2.isEnabled = false
                         timerPlayer1.cancel()
+                        status = 3
+                        statusPause = 1
                     }
 
                 }.start()
@@ -367,6 +370,8 @@ class Home : AppCompatActivity() {
                         binding.homeBtnPlayer1.isEnabled = false
                         binding.homeBtnPlayer2.isEnabled = false
                         timerPlayer1.cancel()
+                        status = 3
+                        statusPause = 1
                     }
 
                 }.start()
@@ -432,6 +437,8 @@ class Home : AppCompatActivity() {
                         binding.homeBtnPlayer1.isEnabled = false
                         binding.homeBtnPlayer2.isEnabled = false
                         timerPlayer2.cancel()
+                        status = 3
+                        statusPause = 1
                     }
 
                 }.start()
@@ -499,6 +506,8 @@ class Home : AppCompatActivity() {
                         timerPlayer2.cancel()
                         binding.homeBtnPlayer1.isEnabled = false
                         binding.homeBtnPlayer2.isEnabled = false
+                        status = 3
+                        statusPause = 1
                     }
 
                 }.start()
@@ -514,7 +523,16 @@ class Home : AppCompatActivity() {
                 timerPlayer2.cancel()
             }
             status = 3
+            statusPause = 1
         }
 
+        binding.homeBtnRestart.setOnClickListener {
+
+            if(statusPause == 1){
+                val intent = Intent(this, Restart::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 }
