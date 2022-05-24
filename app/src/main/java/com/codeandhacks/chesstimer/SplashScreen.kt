@@ -15,6 +15,10 @@ class SplashScreen : AppCompatActivity() {
         super.onResume()
         Handler().postDelayed({
             val intent = Intent(this, Home::class.java)
+            intent.putExtra("Hours", "0")
+            intent.putExtra("Minutes", "5")
+            intent.putExtra("Seconds", "0")
+            intent.putExtra("Increment", "0")
             startActivity(intent)
             finish()
         }, 3000)

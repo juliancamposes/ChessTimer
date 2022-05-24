@@ -8,6 +8,12 @@ import com.codeandhacks.chesstimer.databinding.ActivitySetTimerBinding
 
 class SetTimer : AppCompatActivity() {
     private lateinit var binding : ActivitySetTimerBinding
+    private var hoursToSave = ""
+    private var minutesToSave = ""
+    private var secondsToSave = ""
+    private var incrementToSave = ""
+    private val TAG = "Set Time"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_timer)
@@ -17,7 +23,7 @@ class SetTimer : AppCompatActivity() {
         super.onResume()
         binding = ActivitySetTimerBinding.inflate(layoutInflater)
         val view = binding.root
-        val TAG = "Set"
+
         setContentView(view)
 
         //Time from ET
@@ -28,8 +34,8 @@ class SetTimer : AppCompatActivity() {
         var increment = 0
 
         binding.setTimerHours.setText(hours.toString())
-        binding.setTimerMinutes.setText("0${minutes.toString()}")
-        binding.setTimerSeconds.setText("0${seconds.toString()}")
+        binding.setTimerMinutes.setText("0${minutes}")
+        binding.setTimerSeconds.setText("0${seconds}")
 
         //Arrow buttons
 
@@ -50,7 +56,7 @@ class SetTimer : AppCompatActivity() {
                 minutes += 1
             }
             if(minutes < 10){
-                binding.setTimerMinutes.setText("0${minutes.toString()}")
+                binding.setTimerMinutes.setText("0${minutes}")
             } else {
                 binding.setTimerMinutes.setText(minutes.toString())
             }
@@ -61,7 +67,7 @@ class SetTimer : AppCompatActivity() {
                 minutes -= 1
             }
             if(minutes < 10){
-                binding.setTimerMinutes.setText("0${minutes.toString()}")
+                binding.setTimerMinutes.setText("0${minutes}")
             } else {
                 binding.setTimerMinutes.setText(minutes.toString())
             }
@@ -72,7 +78,7 @@ class SetTimer : AppCompatActivity() {
                 seconds += 1
             }
             if(seconds < 10){
-                binding.setTimerSeconds.setText("0${seconds.toString()}")
+                binding.setTimerSeconds.setText("0${seconds}")
             } else {
                 binding.setTimerSeconds.setText(seconds.toString())
             }
@@ -84,7 +90,7 @@ class SetTimer : AppCompatActivity() {
             }
 
             if(seconds < 10){
-                binding.setTimerSeconds.setText("0${seconds.toString()}")
+                binding.setTimerSeconds.setText("0${seconds}")
             } else {
                 binding.setTimerSeconds.setText(seconds.toString())
             }
@@ -98,8 +104,8 @@ class SetTimer : AppCompatActivity() {
             minutes = 1
             seconds = 0
             binding.setTimerHours.setText(hours.toString())
-            binding.setTimerMinutes.setText("0${minutes.toString()}")
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerMinutes.setText("0${minutes}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerBtn2.setOnClickListener {
@@ -107,8 +113,8 @@ class SetTimer : AppCompatActivity() {
             minutes = 2
             seconds = 0
             binding.setTimerHours.setText(hours.toString())
-            binding.setTimerMinutes.setText("0${minutes.toString()}")
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerMinutes.setText("0${minutes}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerBtn3.setOnClickListener {
@@ -117,8 +123,8 @@ class SetTimer : AppCompatActivity() {
             seconds = 0
 
             binding.setTimerHours.setText(hours.toString())
-            binding.setTimerMinutes.setText("0${minutes.toString()}")
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerMinutes.setText("0${minutes}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerBtn4.setOnClickListener {
@@ -126,8 +132,8 @@ class SetTimer : AppCompatActivity() {
             minutes = 5
             seconds = 0
             binding.setTimerHours.setText(hours.toString())
-            binding.setTimerMinutes.setText("0${minutes.toString()}")
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerMinutes.setText("0${minutes}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerBtn5.setOnClickListener {
@@ -137,7 +143,7 @@ class SetTimer : AppCompatActivity() {
 
             binding.setTimerHours.setText(hours.toString())
             binding.setTimerMinutes.setText(minutes.toString())
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerBtn6.setOnClickListener {
@@ -147,7 +153,7 @@ class SetTimer : AppCompatActivity() {
 
             binding.setTimerHours.setText(hours.toString())
             binding.setTimerMinutes.setText(minutes.toString())
-            binding.setTimerSeconds.setText("0${seconds.toString()}")
+            binding.setTimerSeconds.setText("0${seconds}")
         }
 
         binding.setTimerSelectorIncrement.setOnClickListener {
@@ -164,23 +170,22 @@ class SetTimer : AppCompatActivity() {
 
         binding.setTimerBtnBack.setOnClickListener{
             val intent = Intent(this, Home::class.java)
-            startActivity(intent)
-            //putExtras
-
-            finish()
-        }
-
-        binding.setTimerBtnSave.setOnClickListener {
-            val hoursToSave = binding.setTimerHours.toString()
-            val minutesToSave = binding.setTimerMinutes.toString()
-            val secondsToSave = binding.setTimerSeconds.toString()
-
-            val intent = Intent(this, Home::class.java)
             intent.putExtra("Hours", hoursToSave)
             intent.putExtra("Minutes", minutesToSave)
             intent.putExtra("Seconds", secondsToSave)
-            intent.putExtra("Increment", increment)
+            intent.putExtra("Increment", incrementToSave)
+
             startActivity(intent)
+            //putExtras
+        }
+
+        binding.setTimerBtnSave.setOnClickListener {
+            hoursToSave = binding.setTimerHours.text.toString()
+            minutesToSave = binding.setTimerMinutes.text.toString()
+            secondsToSave = binding.setTimerSeconds.text.toString()
+            incrementToSave = "0"
+            Log.d(TAG, minutesToSave)
+
         }
     }
 }

@@ -20,6 +20,9 @@
             android:name=".Home"
             android:exported="false" />
         <activity
+            android:name=".Home_set"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
