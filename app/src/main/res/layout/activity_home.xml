@@ -46,19 +46,21 @@
         app:layout_constraintGuide_percent="0.95"
         android:id="@+id/home_hg_95"/>
 
+
+
+    <!-- Bottons -->
+
     <TextView
         android:id="@+id/home_tv_time_player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3:00"
-        android:textColor="@color/white"
         android:textSize="80sp"
+        android:text="3:00"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/home_hg_95"
         app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
         app:layout_constraintStart_toStartOf="@+id/home_vg_05"
         app:layout_constraintTop_toBottomOf="@id/home_hg_55" />
-
-    <!-- Bottons -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/home_btn_player_1"
@@ -111,6 +113,8 @@
         app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
         app:layout_constraintStart_toEndOf="@+id/home_btn_configure_timer"
         app:layout_constraintTop_toBottomOf="@id/home_hg_45"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
