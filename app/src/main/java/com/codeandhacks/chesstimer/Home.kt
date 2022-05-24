@@ -40,23 +40,12 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        lifecycleScope.launchWhenStarted{
-            withContext(Dispatchers.IO){
-                val timeValuesPrev = App.getDB().timeValuesDao().findFirst()
-                if(timeValuesPrev != null){
-                    hours = timeValuesPrev.hour
-                    minutes = timeValuesPrev.minutes
-                    seconds = timeValuesPrev.seconds
-                    increment = timeValuesPrev.increment
-                } else {
-                    hours = 0
-                    minutes = 5
-                    seconds = 0
-                    increment = 0
-                }
+        val extra = intent.extras!!
+        hours = extra.get("hours") as Int
+        minutes = extra.get("minutes") as Int
+        seconds = extra.get("seconds") as Int
+        increment = extra.get("increment") as Int
 
-            }
-        }
     }
 
     @SuppressLint("ResourceAsColor")

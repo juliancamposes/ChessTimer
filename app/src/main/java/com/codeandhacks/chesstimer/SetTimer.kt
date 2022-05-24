@@ -20,6 +20,7 @@ class SetTimer : AppCompatActivity() {
     private var secondsToSave = 0
     private var incrementToSave = 0
     private val TAG = "Set Time"
+    private val context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,7 +177,7 @@ class SetTimer : AppCompatActivity() {
         }
 
         binding.setTimerBtnBack.setOnClickListener{
-            val intent = Intent(this, Home::class.java)
+            val intent = Intent(context, Restart::class.java)
             startActivity(intent)
             finish()
             //putExtras
@@ -198,6 +199,10 @@ class SetTimer : AppCompatActivity() {
                     } else {
                         App.getDB().timeValuesDao().insertValues(timeValues)
                     }
+
+                    val intent = Intent(context, Restart::class.java)
+                    startActivity(intent)
+                    finish()
 
                 }
             }
