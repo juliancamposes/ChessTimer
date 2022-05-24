@@ -31,20 +31,21 @@ class Home : AppCompatActivity() {
     private var minutesPlayer2Milis = -1L
     private var secondsPlayer2Milis = -1L
     private var timePlayer2Milis = -1L
-    private var hours = "0"
-    private var minutes = "0"
-    private var seconds = "0"
-    private var increment = "0"
+    private var hours = 0
+    private var minutes = 5
+    private var seconds = 0
+    private var increment = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         val extras = intent.extras!!
-        hours = extras.get("Hours") as String
-        minutes = extras.get("Minutes") as String
-        seconds = extras.get("Seconds") as String
-        increment = extras.get("Increment") as String
+        hours = extras.get("Hours") as Int
+        minutes = extras.get("Minutes") as Int
+        seconds = extras.get("Seconds") as Int
+        increment = extras.get("Increment") as Int
+
     }
 
     @SuppressLint("ResourceAsColor")
@@ -59,10 +60,12 @@ class Home : AppCompatActivity() {
         binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
 
 
+
         //Configure the timer
         binding.homeBtnConfigureTimer.setOnClickListener{
             val intent = Intent(this, SetTimer::class.java)
             startActivity(intent)
+            finish()
         }
 
         var status = 3
@@ -82,14 +85,14 @@ class Home : AppCompatActivity() {
             hoursPlayer1Milis = hoursPlayer1*1000
             minutesPlayer1Milis = minutesPlayer1*1000
             secondsPlayer1Milis = secondsPlayer1*1000
-            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis-3000
+            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis
         }
 
         if(timePlayer1Milis > 0L){
             hoursPlayer1Milis = timePlayer1Milis / 1000
             minutesPlayer1Milis = timePlayer1Milis / 60
             secondsPlayer1Milis = timePlayer1Milis
-            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis-3000
+            timePlayer1Milis  = hoursPlayer1Milis+minutesPlayer1Milis+secondsPlayer1Milis
         }
 
         if (timePlayer2Milis == -1L){
@@ -99,14 +102,14 @@ class Home : AppCompatActivity() {
             hoursPlayer2Milis = hoursPlayer2*1000
             minutesPlayer2Milis = minutesPlayer2*1000
             secondsPlayer2Milis = secondsPlayer2*1000
-            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis-3000
+            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis
         }
 
         if(timePlayer2Milis > 0L){
             hoursPlayer2Milis = timePlayer2Milis / 1000
             minutesPlayer2Milis = timePlayer2Milis / 60
             secondsPlayer2Milis = timePlayer2Milis
-            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis-3000
+            timePlayer2Milis  = hoursPlayer2Milis+minutesPlayer2Milis+secondsPlayer2Milis
         }
 
 

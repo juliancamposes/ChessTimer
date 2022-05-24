@@ -8,10 +8,10 @@ import com.codeandhacks.chesstimer.databinding.ActivitySetTimerBinding
 
 class SetTimer : AppCompatActivity() {
     private lateinit var binding : ActivitySetTimerBinding
-    private var hoursToSave = ""
-    private var minutesToSave = ""
-    private var secondsToSave = ""
-    private var incrementToSave = ""
+    private var hoursToSave = 0
+    private var minutesToSave = 5
+    private var secondsToSave = 0
+    private var incrementToSave = 0
     private val TAG = "Set Time"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -180,11 +180,10 @@ class SetTimer : AppCompatActivity() {
         }
 
         binding.setTimerBtnSave.setOnClickListener {
-            hoursToSave = binding.setTimerHours.text.toString()
-            minutesToSave = binding.setTimerMinutes.text.toString()
-            secondsToSave = binding.setTimerSeconds.text.toString()
-            incrementToSave = "0"
-            Log.d(TAG, minutesToSave)
+            hoursToSave = binding.setTimerHours.text.toString().toInt()
+            minutesToSave = binding.setTimerMinutes.text.toString().toInt()
+            secondsToSave = binding.setTimerSeconds.text.toString().toInt()
+            incrementToSave = 0
 
         }
     }
