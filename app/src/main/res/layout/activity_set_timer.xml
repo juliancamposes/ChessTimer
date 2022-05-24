@@ -34,6 +34,33 @@
         android:id="@+id/set_timer_vg_90"/>
 
     <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.47"
+        android:id="@+id/set_timer_hg_50"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3"
+        android:id="@+id/set_timer_hg_30"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/set_timer_hg_05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"
+        android:id="@+id/set_timer_hg_80"/>
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/set_timer_hg_95"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,13 +69,11 @@
 
     <!-- Buttons -->
     <com.google.android.material.button.MaterialButton
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/set_timer_hg_95"
         app:layout_constraintStart_toEndOf="@id/set_timer_vg_10"
         app:layout_constraintEnd_toStartOf="@id/set_timer_vg_90"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         app:icon="@drawable/ic_baseline_arrow_back"
         app:iconTint="@color/white"
         app:iconSize="20sp"
@@ -59,34 +84,14 @@
         app:cornerRadius="10sp"
         android:id="@+id/set_timer_btn_back"/>
 
+
     <com.google.android.material.button.MaterialButton
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/set_timer_btn_back"
         app:layout_constraintStart_toEndOf="@id/set_timer_vg_10"
         app:layout_constraintEnd_toStartOf="@id/set_timer_vg_90"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        app:icon="@drawable/configure"
-        app:iconTint="@color/white"
-        app:iconSize="20sp"
-        app:iconGravity="textStart"
-        android:text="Customize Panels"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:cornerRadius="10sp"
-        android:id="@+id/set_timer_btn_customize"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/set_timer_btn_customize"
-        app:layout_constraintStart_toEndOf="@id/set_timer_vg_10"
-        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_90"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:icon="@drawable/ic_baseline_save"
         app:iconTint="@color/white"
         app:iconSize="20sp"
@@ -100,12 +105,12 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@id/set_timer_btn_save"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_80"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
         android:text="5:00"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:cornerRadius="10sp"
         android:id="@+id/set_timer_btn_4"/>
@@ -113,12 +118,11 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@id/set_timer_btn_save"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_80"
         app:layout_constraintStart_toEndOf="@id/set_timer_vg_37"
-        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_67"
         android:text="10:00"
-        android:textSize="28sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:cornerRadius="10sp"
         android:id="@+id/set_timer_btn_5"/>
@@ -126,12 +130,11 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@id/set_timer_btn_save"
-        app:layout_constraintStart_toEndOf="@id/set_timer_vg_67"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_80"
+        app:layout_constraintEnd_toEndOf="@id/set_timer_vg_90"
         android:text="15:00"
-        android:textSize="28sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:cornerRadius="10sp"
         android:id="@+id/set_timer_btn_6"/>
@@ -139,10 +142,11 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_50"
         app:layout_constraintBottom_toTopOf="@id/set_timer_btn_6"
         app:layout_constraintStart_toEndOf="@id/set_timer_vg_67"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/set_timer_vg_90"
         android:text="3:00"
         android:textSize="28sp"
         android:textColor="@color/white"
@@ -152,10 +156,10 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_50"
         app:layout_constraintBottom_toTopOf="@id/set_timer_btn_5"
         app:layout_constraintStart_toEndOf="@id/set_timer_vg_37"
-        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_67"
         android:text="2:00"
         android:textSize="28sp"
         android:textColor="@color/white"
@@ -165,7 +169,8 @@
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_50"
         app:layout_constraintBottom_toTopOf="@id/set_timer_btn_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
@@ -175,33 +180,86 @@
         app:cornerRadius="10sp"
         android:id="@+id/set_timer_btn_1"/>
 
-    <EditText
+    <TextView
+        android:id="@+id/set_timer_tv_disable_increment"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:text="TIME INCREMENT"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_50"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_selector_increment" />
+
+    <Switch
+        android:id="@+id/set_timer_selector_increment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_50"
+        app:layout_constraintStart_toStartOf="@+id/set_timer_vg_67" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/down_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hours"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_30"
         app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="40dp"
         android:layout_marginRight="20dp"
-        android:text="0"
-        android:textSize="60sp"
-        android:textColor="@color/white"
+        android:id="@+id/set_timer_btn_hours_down"/>
+
+    <EditText
+        android:id="@+id/set_timer_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginRight="20dp"
         android:backgroundTint="@color/white"
-        android:id="@+id/set_timer_hours"/>
+        android:minWidth="48dp"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
+        app:layout_constraintTop_toBottomOf="@+id/set_timer_btn_hours_up"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/up_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_05"
+        app:layout_constraintEnd_toStartOf="@id/set_timer_vg_37"
+        android:layout_marginBottom="-10dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/set_timer_btn_hours_up"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toEndOf="@id/set_timer_hours"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_05"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="10dp"
         android:text="h"
         android:textSize="60sp"
         android:textColor="@color/white"
         android:id="@+id/set_timer_h"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/down_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_minutes"
+        app:layout_constraintStart_toStartOf="@id/set_timer_minutes"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_30"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/set_timer_btn_minutes_down"/>
+
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toEndOf="@id/set_timer_h"
         app:layout_constraintBottom_toBottomOf="@id/set_timer_hours"
         android:layout_marginTop="60dp"
@@ -211,11 +269,32 @@
         android:backgroundTint="@color/white"
         android:textSize="60sp"
         android:id="@+id/set_timer_minutes"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/up_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_05"
+        app:layout_constraintStart_toStartOf="@id/set_timer_minutes"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/set_timer_btn_minutes_up"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/down_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_seconds"
+        app:layout_constraintStart_toStartOf="@id/set_timer_seconds"
+        app:layout_constraintBottom_toTopOf="@id/set_timer_hg_30"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/set_timer_btn_seconds_down"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toEndOf="@id/set_timer_minutes"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_05"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="10dp"
         android:text=":"
@@ -224,7 +303,7 @@
         android:id="@+id/set_timer_points"/>
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toEndOf="@id/set_timer_points"
         app:layout_constraintBottom_toBottomOf="@id/set_timer_hours"
         android:layout_marginTop="60dp"
@@ -233,5 +312,15 @@
         android:backgroundTint="@color/white"
         android:textSize="60sp"
         android:id="@+id/set_timer_seconds"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/up_arrow"
+        app:layout_constraintTop_toBottomOf="@id/set_timer_hg_05"
+        app:layout_constraintStart_toStartOf="@id/set_timer_seconds"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/set_timer_btn_seconds_up"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
