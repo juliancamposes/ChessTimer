@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
-import android.widget.ImageButton
 import androidx.lifecycle.lifecycleScope
 import com.codeandhacks.chesstimer.database.Application.App
 import com.codeandhacks.chesstimer.databinding.ActivityHomeBinding
@@ -50,7 +49,6 @@ class Home : AppCompatActivity() {
         seconds = extra.get("seconds") as Int
         increment = extra.get("increment") as Int
         Log.d(TAG, increment.toString())
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -60,56 +58,336 @@ class Home : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
-
         //Set the buttons color at the beggining
         binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
         binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
 
-
-        //Configure the timer
+        //Configure the timer BUTTON
         binding.homeBtnConfigureTimer.setOnClickListener{
             val intent = Intent(this, SetTimer::class.java)
             startActivity(intent)
             finish()
         }
-
         var status = 3
-        if (status != 3){
-            binding.homeBtnConfigureTimer.isEnabled = false
-        }
 
         //Setting the time (if it have started or not)
-        if (timePlayer1Milis == -1L){
-            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
-            minutesPlayer1 = (minutes * 60 * 1000).toLong()
-            secondsPlayer1 = (seconds * 1000).toLong()
-            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
+        //And showing it
+        setTimePlayers()
+        showTime()
+
+        //Buttons actions
+        binding.homeBtnPlayTimer.setOnClickListener{
+            //Buttons are available
+            status = 0
+            binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
+            binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
         }
 
-        if(timePlayer1Milis > 0L){
-            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
-            minutesPlayer1 = (minutes * 60 * 1000).toLong()
-            secondsPlayer1 = (seconds * 1000).toLong()
-            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
+        binding.homeBtnPlayer1.setOnClickListener {
+            if (status == 0) {
+                //Change the colours when is enabled and not
+                binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
+                binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Start the player 2 timer
+                timerPlayer2 = object : CountDownTimer(timePlayer2Milis, 100){
+                    override fun onTick(p0: Long) {
+
+                        var timeHours = p0 / 60 /60 / 1000
+                        var timeMinutes = p0 / 60 / 1000 % 60
+                        var timeSeconds = p0 / 1000 % 60
+
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        binding.homeBtnPlayer2.setTextColor(Color.WHITE)
+                        timePlayer2Milis = p0
+
+                    }
+                    override fun onFinish() {
+                        binding.homeBtnPlayer2.setBackgroundColor(Color.RED)
+                        binding.homeBtnPlayer1.isEnabled = false
+                        binding.homeBtnPlayer2.isEnabled = false
+                        timerPlayer1.cancel()
+                        status = 3
+                        statusPause = 1
+                    }
+
+                }.start()
+                //Change the status
+                status = 2
+
+                //Increment
+                val incrementPlayer1 = (increment * 1000).toLong()
+                timePlayer1Milis += incrementPlayer1
+            }
+
+            if (status == 1) {
+                //Change the colours when is enabled and not
+                binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
+                binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Stop player1Timer
+
+                timerPlayer1.cancel()
+
+                //Start the player 2 timer
+                timerPlayer2 = object : CountDownTimer(timePlayer2Milis, 100){
+                    override fun onTick(p0: Long) {
+
+                        var timeHours = p0 / 60 /60 / 1000
+                        var timeMinutes = p0 / 60 / 1000 % 60
+                        var timeSeconds = p0 / 1000 % 60
+
+
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer2.text= timeToShow
+                        }
+                        timePlayer2Milis = p0
+                        binding.homeBtnPlayer2.setTextColor(Color.WHITE)
+
+                    }
+                    override fun onFinish() {
+                        binding.homeBtnPlayer2.setBackgroundColor(Color.RED)
+                        binding.homeBtnPlayer1.isEnabled = false
+                        binding.homeBtnPlayer2.isEnabled = false
+                        timerPlayer1.cancel()
+                        status = 3
+                        statusPause = 1
+                    }
+
+                }.start()
+                //Change the status
+                status = 2
+                //Increment
+                val incrementPlayer1 = (increment * 1000).toLong()
+                timePlayer1Milis += incrementPlayer1
+            }
         }
 
-        if (timePlayer2Milis == -1L){
-            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
-            minutesPlayer2 = (minutes * 60 * 1000).toLong()
-            secondsPlayer2 = (seconds * 1000).toLong()
-            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
+        binding.homeBtnPlayer2.setOnClickListener {
+            if (status == 0) {
+                //Change the colours when is enabled and not
+                binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
+                binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Start the player 1 timer
+                timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
+                    override fun onTick(p0: Long) {
+
+                        var timeHours = p0 / 60 /60 / 1000
+                        var timeMinutes = p0 / 60 / 1000 % 60
+                        var timeSeconds = p0 / 1000 % 60
+
+
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        timePlayer1Milis = p0
+                        binding.homeBtnPlayer1.setTextColor(Color.WHITE)
+
+                    }
+                    override fun onFinish() {
+                        binding.homeBtnPlayer1.setBackgroundColor(Color.RED)
+                        binding.homeBtnPlayer1.isEnabled = false
+                        binding.homeBtnPlayer2.isEnabled = false
+                        timerPlayer2.cancel()
+                        status = 3
+                        statusPause = 1
+                    }
+
+                }.start()
+                //Change the status
+                status = 1
+                //Increment
+                val incrementPlayer2 = (increment * 1000).toLong()
+                timePlayer2Milis += incrementPlayer2
+            }
+
+            if (status == 2) {
+                //Change the colours when is enabled and not
+                binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
+                binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Stop the player 2 timer
+                timerPlayer2.cancel()
+
+                //Start the player 1 timer
+
+                timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
+                    override fun onTick(p0: Long) {
+
+                        var timeHours = p0 / 60 /60 / 1000
+                        var timeMinutes = p0 / 60 / 1000 % 60
+                        var timeSeconds = p0 / 1000 % 60
+
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
+                            var timeToShow = "$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
+                            var timeToShow = "$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
+                            var timeToShow = "0$timeMinutes:$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
+                            var timeToShow = "0$timeMinutes:0$timeSeconds"
+                            binding.homeBtnPlayer1.text= timeToShow
+                        }
+
+                        timePlayer1Milis = p0
+                        binding.homeBtnPlayer1.setTextColor(Color.WHITE)
+
+                    }
+                    override fun onFinish() {
+                        binding.homeBtnPlayer1.setBackgroundColor(Color.RED)
+                        timerPlayer2.cancel()
+                        binding.homeBtnPlayer1.isEnabled = false
+                        binding.homeBtnPlayer2.isEnabled = false
+                        status = 3
+                        statusPause = 1
+                    }
+
+                }.start()
+                //Change the status
+                status = 1
+                //Increment
+                val incrementPlayer2 = (increment * 1000).toLong()
+                timePlayer2Milis += incrementPlayer2
+            }
         }
 
-        if(timePlayer2Milis > 0L){
-            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
-            minutesPlayer2 = (minutes * 60 * 1000).toLong()
-            secondsPlayer2 = (seconds * 1000).toLong()
-            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
+        binding.homeBtnPauseTimer.setOnClickListener {
+
+            if(status != 3){
+                timerPlayer1.cancel()
+                timerPlayer2.cancel()
+            }
+            status = 3
+            statusPause = 1
         }
 
-        //Converting to show
+        binding.homeBtnRestart.setOnClickListener {
 
+            if(statusPause == 1){
+                val intent = Intent(this, Restart::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+
+    fun showTime(){
         var timeHoursAmbos = timePlayer1Milis / 60 /60 / 1000
         var timeMinutesAmbos = timePlayer1Milis / 60 / 1000 % 60
         var timeSecondsAmbos = timePlayer1Milis / 1000 % 60
@@ -227,338 +505,35 @@ class Home : AppCompatActivity() {
             binding.homeBtnPlayer2.setTextColor(Color.WHITE)
         }
 
+    }
 
-        //Buttons actions
-
-        binding.homeBtnPlayTimer.setOnClickListener{
-            //Buttons are available
-            status = 0
-            binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
-            binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
+    fun setTimePlayers(){
+        if (timePlayer1Milis == -1L){
+            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer1 = (minutes * 60 * 1000).toLong()
+            secondsPlayer1 = (seconds * 1000).toLong()
+            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
         }
 
-        binding.homeBtnPlayer1.setOnClickListener {
-            if (status == 0) {
-                //Change the colours when is enabled and not
-                binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
-                binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
-
-                //Start the player 2 timer
-                timerPlayer2 = object : CountDownTimer(timePlayer2Milis, 100){
-                    override fun onTick(p0: Long) {
-
-                        var timeHours = p0 / 60 /60 / 1000
-                        var timeMinutes = p0 / 60 / 1000 % 60
-                        var timeSeconds = p0 / 1000 % 60
-
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        binding.homeBtnPlayer2.setTextColor(Color.WHITE)
-                        timePlayer2Milis = p0
-
-                    }
-                    override fun onFinish() {
-                        binding.homeBtnPlayer2.setBackgroundColor(Color.RED)
-                        binding.homeBtnPlayer1.isEnabled = false
-                        binding.homeBtnPlayer2.isEnabled = false
-                        timerPlayer1.cancel()
-                        status = 3
-                        statusPause = 1
-                        val alarma = MediaPlayer.create(context, R.raw.alarma)
-                        Handler().postDelayed({
-                            alarma.start()
-                        }, 1000)
-                        alarma.stop()
-                    }
-
-                }.start()
-                //Change the status
-                status = 2
-
-                //Increment
-                val incrementPlayer1 = (increment * 1000).toLong()
-                timePlayer1Milis += incrementPlayer1
-            }
-
-            if (status == 1) {
-                //Change the colours when is enabled and not
-                binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
-                binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
-
-                //Stop player1Timer
-
-                timerPlayer1.cancel()
-
-                //Start the player 2 timer
-                timerPlayer2 = object : CountDownTimer(timePlayer2Milis, 100){
-                    override fun onTick(p0: Long) {
-
-                        var timeHours = p0 / 60 /60 / 1000
-                        var timeMinutes = p0 / 60 / 1000 % 60
-                        var timeSeconds = p0 / 1000 % 60
-
-
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer2.text= timeToShow
-                        }
-                        timePlayer2Milis = p0
-                        binding.homeBtnPlayer2.setTextColor(Color.WHITE)
-
-                    }
-                    override fun onFinish() {
-                        binding.homeBtnPlayer2.setBackgroundColor(Color.RED)
-                        binding.homeBtnPlayer1.isEnabled = false
-                        binding.homeBtnPlayer2.isEnabled = false
-                        timerPlayer1.cancel()
-                        status = 3
-                        statusPause = 1
-                        val alarma = MediaPlayer.create(context, R.raw.alarma)
-                        Handler().postDelayed({
-                            alarma.start()
-                        }, 1000)
-                            alarma.stop()
-
-                    }
-
-                }.start()
-                //Change the status
-                status = 2
-                //Increment
-                val incrementPlayer1 = (increment * 1000).toLong()
-                timePlayer1Milis += incrementPlayer1
-            }
+        if(timePlayer1Milis > 0L){
+            hoursPlayer1 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer1 = (minutes * 60 * 1000).toLong()
+            secondsPlayer1 = (seconds * 1000).toLong()
+            timePlayer1Milis  = hoursPlayer1+minutesPlayer1+secondsPlayer1
         }
 
-        binding.homeBtnPlayer2.setOnClickListener {
-            if (status == 0) {
-                //Change the colours when is enabled and not
-                binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
-                binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
-
-                //Start the player 1 timer
-                timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
-                    override fun onTick(p0: Long) {
-
-                        var timeHours = p0 / 60 /60 / 1000
-                        var timeMinutes = p0 / 60 / 1000 % 60
-                        var timeSeconds = p0 / 1000 % 60
-
-
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        timePlayer1Milis = p0
-                        binding.homeBtnPlayer1.setTextColor(Color.WHITE)
-
-                    }
-                    override fun onFinish() {
-                        binding.homeBtnPlayer1.setBackgroundColor(Color.RED)
-                        binding.homeBtnPlayer1.isEnabled = false
-                        binding.homeBtnPlayer2.isEnabled = false
-                        timerPlayer2.cancel()
-                        status = 3
-                        statusPause = 1
-                        val alarma = MediaPlayer.create(context, R.raw.alarma)
-                        Handler().postDelayed({
-                            alarma.start()
-                        }, 1000)
-                        alarma.stop()
-                    }
-
-                }.start()
-                //Change the status
-                status = 1
-                //Increment
-                val incrementPlayer2 = (increment * 1000).toLong()
-                timePlayer2Milis += incrementPlayer2
-            }
-
-            if (status == 2) {
-                //Change the colours when is enabled and not
-                binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
-                binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
-
-                //Stop the player 2 timer
-                timerPlayer2.cancel()
-
-                //Start the player 1 timer
-
-                timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
-                    override fun onTick(p0: Long) {
-
-                        var timeHours = p0 / 60 /60 / 1000
-                        var timeMinutes = p0 / 60 / 1000 % 60
-                        var timeSeconds = p0 / 1000 % 60
-
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if (timeHours > 0 && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours > 0 && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "$timeHours.0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds >= 10){
-                            var timeToShow = "$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes > 10 && timeSeconds < 10){
-                            var timeToShow = "$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if (timeHours == 0L && timeMinutes < 10 && timeSeconds >= 10){
-                            var timeToShow = "0$timeMinutes:$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-                        if(timeHours == 0L && timeMinutes < 10 && timeSeconds < 10){
-                            var timeToShow = "0$timeMinutes:0$timeSeconds"
-                            binding.homeBtnPlayer1.text= timeToShow
-                        }
-
-                        timePlayer1Milis = p0
-                        binding.homeBtnPlayer1.setTextColor(Color.WHITE)
-
-                    }
-                    override fun onFinish() {
-                        binding.homeBtnPlayer1.setBackgroundColor(Color.RED)
-                        timerPlayer2.cancel()
-                        binding.homeBtnPlayer1.isEnabled = false
-                        binding.homeBtnPlayer2.isEnabled = false
-                        status = 3
-                        statusPause = 1
-                        val alarma = MediaPlayer.create(context, R.raw.alarma)
-                        Handler().postDelayed({
-                            alarma.start()
-                        }, 1000)
-                        alarma.stop()
-                    }
-
-                }.start()
-                //Change the status
-                status = 1
-                //Increment
-                val incrementPlayer2 = (increment * 1000).toLong()
-                timePlayer2Milis += incrementPlayer2
-            }
+        if (timePlayer2Milis == -1L){
+            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer2 = (minutes * 60 * 1000).toLong()
+            secondsPlayer2 = (seconds * 1000).toLong()
+            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
 
-        binding.homeBtnPauseTimer.setOnClickListener {
-
-            if(status != 3){
-                timerPlayer1.cancel()
-                timerPlayer2.cancel()
-            }
-            status = 3
-            statusPause = 1
-        }
-
-        binding.homeBtnRestart.setOnClickListener {
-
-            if(statusPause == 1){
-                val intent = Intent(this, Restart::class.java)
-                startActivity(intent)
-                finish()
-            }
+        if(timePlayer2Milis > 0L){
+            hoursPlayer2 = (hours * 60 * 60 * 1000).toLong()
+            minutesPlayer2 = (minutes * 60 * 1000).toLong()
+            secondsPlayer2 = (seconds * 1000).toLong()
+            timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
     }
 }
