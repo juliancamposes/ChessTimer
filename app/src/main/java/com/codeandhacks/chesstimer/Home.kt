@@ -33,8 +33,6 @@ class Home : AppCompatActivity() {
     private var minutes = 5
     private var seconds = 0
     private var increment = 0
-    private var incrementPlayer1 = 0L
-    private var incrementPlayer2 = 0L
     private val context = this
     private var statusPause = 0
 
@@ -303,7 +301,6 @@ class Home : AppCompatActivity() {
 
                 timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
                     override fun onTick(p0: Long) {
-
                         var timeHours = p0 / 60 /60 / 1000
                         var timeMinutes = p0 / 60 / 1000 % 60
                         var timeSeconds = p0 / 1000 % 60
