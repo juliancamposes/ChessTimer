@@ -59,7 +59,7 @@ class Home : AppCompatActivity() {
 
         //Set the buttons color at the beggining
         binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
-        binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
+        binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
 
         //Configure the timer BUTTON
         binding.homeBtnConfigureTimer.setOnClickListener{
@@ -79,7 +79,7 @@ class Home : AppCompatActivity() {
         binding.homeBtnPlayTimer.setOnClickListener{
             //Buttons are available
             status = 0
-            binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
+            binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
             binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
         }
 
