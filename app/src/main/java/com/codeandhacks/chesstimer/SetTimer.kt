@@ -19,12 +19,16 @@ class SetTimer : AppCompatActivity() {
     private var minutesToSave = 5
     private var secondsToSave = 0
     private var incrementToSave = 0
+    private var incrementPrevious = 0
     private val TAG = "Set Time"
     private val context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_timer)
+        val extra = intent.extras!!
+        incrementPrevious = extra.get("increment") as Int
+        Log.d(TAG, incrementPrevious.toString())
 
     }
 
@@ -165,8 +169,16 @@ class SetTimer : AppCompatActivity() {
             binding.setTimerSeconds.setText("0${seconds}")
         }
 
-        binding.setTimerSelectorIncrement.setOnClickListener {
+        binding.setTimerEtIncrement.setText(incrementPrevious.toString())
+        if(incrementPrevious != 0){
+            binding.setTimerSelectorIncrement.isChecked = true
+            incrementToSave = incrementPrevious
+        } else {
+            binding.setTimerSelectorIncrement.isChecked = false
+            incrementToSave = 0
+        }
 
+        binding.setTimerSelectorIncrement.setOnClickListener {
             if(binding.setTimerSelectorIncrement.isChecked){
                 //Alert dialog to chose the increment
                 incrementToSave = binding.setTimerEtIncrement.text.toString().toInt()
@@ -174,6 +186,7 @@ class SetTimer : AppCompatActivity() {
 
             if(binding.setTimerSelectorIncrement.isChecked == false){
                 incrementToSave = 0
+                binding.setTimerEtIncrement.setText("0")
             }
         }
 

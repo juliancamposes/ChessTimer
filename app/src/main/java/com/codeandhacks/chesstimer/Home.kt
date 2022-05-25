@@ -3,7 +3,6 @@ package com.codeandhacks.chesstimer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.media.MediaPlayer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -65,6 +64,7 @@ class Home : AppCompatActivity() {
         //Configure the timer BUTTON
         binding.homeBtnConfigureTimer.setOnClickListener{
             val intent = Intent(this, SetTimer::class.java)
+            intent.putExtra("increment", increment)
             startActivity(intent)
             finish()
         }
@@ -148,8 +148,7 @@ class Home : AppCompatActivity() {
                 status = 2
 
                 //Increment
-                val incrementPlayer1 = (increment * 1000).toLong()
-                timePlayer1Milis += incrementPlayer1
+                timePlayer1Milis += (increment * 1000).toLong()
             }
 
             if (status == 1) {
@@ -220,8 +219,7 @@ class Home : AppCompatActivity() {
                 //Change the status
                 status = 2
                 //Increment
-                val incrementPlayer1 = (increment * 1000).toLong()
-                timePlayer1Milis += incrementPlayer1
+                timePlayer1Milis += (increment * 1000).toLong()
             }
         }
 
@@ -290,8 +288,7 @@ class Home : AppCompatActivity() {
                 //Change the status
                 status = 1
                 //Increment
-                val incrementPlayer2 = (increment * 1000).toLong()
-                timePlayer2Milis += incrementPlayer2
+                timePlayer2Milis += (increment * 1000).toLong()
             }
 
             if (status == 2) {
@@ -362,8 +359,7 @@ class Home : AppCompatActivity() {
                 //Change the status
                 status = 1
                 //Increment
-                val incrementPlayer2 = (increment * 1000).toLong()
-                timePlayer2Milis += incrementPlayer2
+                timePlayer2Milis += (increment * 1000).toLong()
             }
         }
 
@@ -378,7 +374,6 @@ class Home : AppCompatActivity() {
         }
 
         binding.homeBtnRestart.setOnClickListener {
-
             if(statusPause == 1){
                 val intent = Intent(this, Restart::class.java)
                 startActivity(intent)
@@ -536,4 +531,5 @@ class Home : AppCompatActivity() {
             timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
     }
+
 }
