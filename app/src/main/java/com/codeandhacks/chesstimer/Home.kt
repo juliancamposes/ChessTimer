@@ -58,6 +58,14 @@ class Home : AppCompatActivity() {
         //Set the buttons color at the beggining
         binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
         binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
+        binding.homeBtnPlayTimer.setBackgroundColor(Color.GREEN)
+        binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
+        binding.homeBtnRestart.setBackgroundColor(Color.GRAY)
+        binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
+
+        //Desactivate pause button
+
+        binding.homeBtnPauseTimer.isEnabled = false
 
         //Configure the timer BUTTON
         binding.homeBtnConfigureTimer.setOnClickListener{
@@ -77,6 +85,11 @@ class Home : AppCompatActivity() {
         binding.homeBtnPlayTimer.setOnClickListener{
             //Buttons are available
             status = 0
+
+            binding.homeBtnPlayTimer.setBackgroundColor(Color.GRAY)
+            binding.homeBtnConfigureTimer.setBackgroundColor(Color.GRAY)
+            binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
+            binding.homeBtnRestart.setBackgroundColor(Color.GRAY)
             binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
             binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
         }
@@ -86,6 +99,9 @@ class Home : AppCompatActivity() {
                 //Change the colours when is enabled and not
                 binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
                 binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Button configure not enabled
+                binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Start the player 2 timer
                 timerPlayer2 = object : CountDownTimer(timePlayer2Milis, 100){
@@ -134,6 +150,7 @@ class Home : AppCompatActivity() {
                     }
                     override fun onFinish() {
                         binding.homeBtnPlayer2.setBackgroundColor(Color.RED)
+                        binding.homeBtnRestart.setBackgroundColor(Color.GREEN)
                         binding.homeBtnPlayer1.isEnabled = false
                         binding.homeBtnPlayer2.isEnabled = false
                         timerPlayer1.cancel()
@@ -153,6 +170,13 @@ class Home : AppCompatActivity() {
                 //Change the colours when is enabled and not
                 binding.homeBtnPlayer1.setBackgroundColor(Color.GRAY)
                 binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Button pause enabled
+                binding.homeBtnPauseTimer.isEnabled = true
+                binding.homeBtnPauseTimer.setBackgroundColor(Color.GREEN)
+
+                //Button configure not enabled
+                binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Stop player1Timer
 
@@ -227,6 +251,9 @@ class Home : AppCompatActivity() {
                 binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
                 binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
 
+                //Button configure not enabled
+                binding.homeBtnConfigureTimer.isEnabled = false
+
                 //Start the player 1 timer
                 timerPlayer1 = object : CountDownTimer(timePlayer1Milis, 100){
                     override fun onTick(p0: Long) {
@@ -293,6 +320,13 @@ class Home : AppCompatActivity() {
                 //Change the colours when is enabled and not
                 binding.homeBtnPlayer2.setBackgroundColor(Color.GRAY)
                 binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
+
+                //Button configure not enabled
+                binding.homeBtnConfigureTimer.isEnabled = false
+
+                //Button pause enabled
+                binding.homeBtnPauseTimer.isEnabled = true
+                binding.homeBtnPauseTimer.setBackgroundColor(Color.GREEN)
 
                 //Stop the player 2 timer
                 timerPlayer2.cancel()
@@ -362,10 +396,20 @@ class Home : AppCompatActivity() {
 
         binding.homeBtnPauseTimer.setOnClickListener {
 
-            if(status != 3){
+
+            //Button configure not enabled
+            binding.homeBtnConfigureTimer.isEnabled = true
+            binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
+
+            if(status !=3){
                 timerPlayer1.cancel()
                 timerPlayer2.cancel()
+                binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
+                binding.homeBtnPlayTimer.setBackgroundColor(Color.GREEN)
+                binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
+                binding.homeBtnRestart.setBackgroundColor(Color.GREEN)
             }
+
             status = 3
             statusPause = 1
         }

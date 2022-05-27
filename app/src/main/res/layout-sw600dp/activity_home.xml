@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home">
+
+    <!-- Guides -->
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/home_vg_05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
+        android:id="@+id/home_vg_95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"
+        android:id="@+id/home_hg_05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.43"
+        android:id="@+id/home_hg_45"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.57"
+        android:id="@+id/home_hg_55"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        android:id="@+id/home_hg_95"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30"
+        android:id="@+id/home_vg_20"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55"
+        android:id="@+id/home_vg_40"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"
+        android:id="@+id/home_vg_60"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10"
+        android:id="@+id/home_vg_10"/>
+
+
+
+    <!-- Bottons -->
+
+    <TextView
+        android:id="@+id/home_tv_time_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="80sp"
+        android:text="3:00"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_95"
+        app:layout_constraintEnd_toStartOf="@+id/home_vg_95"
+        app:layout_constraintStart_toStartOf="@+id/home_vg_05"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_55" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/home_btn_player_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toBottomOf="@id/home_hg_95"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_95"
+        app:layout_constraintStart_toEndOf="@id/home_vg_05"
+        app:layout_constraintTop_toTopOf="@id/home_hg_55" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/home_btn_player_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/home_hg_45"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_95"
+        app:layout_constraintStart_toEndOf="@id/home_vg_05"
+        app:layout_constraintTop_toTopOf="@id/home_hg_05"
+        android:textSize="80sp"
+        android:rotation="180"/>
+
+    <!-- Icons -->
+    <ImageButton
+        android:id="@+id/home_btn_configure_timer"
+        android:layout_width="117dp"
+        android:layout_height="112dp"
+        android:src="@drawable/configure"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_20"
+        app:layout_constraintStart_toEndOf="@id/home_vg_10"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45" />
+
+    <ImageButton
+        android:id="@+id/home_btn_play_timer"
+        android:layout_width="117dp"
+        android:layout_height="112dp"
+        android:src="@drawable/play_timer"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintStart_toStartOf="@+id/home_vg_20"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_40"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45" />
+
+    <ImageButton
+        android:id="@+id/home_btn_pause_timer"
+        android:layout_width="117dp"
+        android:layout_height="112dp"
+        android:src="@drawable/pause_timer"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        app:layout_constraintStart_toEndOf="@id/home_vg_40"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_60"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45"/>
+
+    <ImageButton
+        android:id="@+id/home_btn_restart"
+        android:layout_width="117dp"
+        android:layout_height="112dp"
+        app:layout_constraintStart_toEndOf="@id/home_vg_60"
+        app:layout_constraintEnd_toStartOf="@id/home_vg_95"
+        app:layout_constraintTop_toBottomOf="@id/home_hg_45"
+        app:layout_constraintBottom_toTopOf="@id/home_hg_55"
+        android:src="@drawable/undo"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
