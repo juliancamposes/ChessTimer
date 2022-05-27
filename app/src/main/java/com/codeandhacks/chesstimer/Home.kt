@@ -63,8 +63,7 @@ class Home : AppCompatActivity() {
         binding.homeBtnRestart.setBackgroundColor(Color.GRAY)
         binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
 
-        //Desactivate pause button
-
+        //Deactivate pause button
         binding.homeBtnPauseTimer.isEnabled = false
 
         //Configure the timer BUTTON
@@ -86,6 +85,7 @@ class Home : AppCompatActivity() {
             //Buttons are available
             status = 0
 
+            binding.homeBtnPlayTimer.isEnabled = false
             binding.homeBtnPlayTimer.setBackgroundColor(Color.GRAY)
             binding.homeBtnConfigureTimer.setBackgroundColor(Color.GRAY)
             binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
@@ -101,6 +101,7 @@ class Home : AppCompatActivity() {
                 binding.homeBtnPlayer2.setBackgroundColor(Color.parseColor("#00b084"))
 
                 //Button configure not enabled
+                binding.homeBtnPlayTimer.isEnabled = false
                 binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Start the player 2 timer
@@ -176,6 +177,7 @@ class Home : AppCompatActivity() {
                 binding.homeBtnPauseTimer.setBackgroundColor(Color.GREEN)
 
                 //Button configure not enabled
+                binding.homeBtnPlayTimer.isEnabled = false
                 binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Stop player1Timer
@@ -252,6 +254,7 @@ class Home : AppCompatActivity() {
                 binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
 
                 //Button configure not enabled
+                binding.homeBtnPlayTimer.isEnabled = false
                 binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Start the player 1 timer
@@ -322,6 +325,7 @@ class Home : AppCompatActivity() {
                 binding.homeBtnPlayer1.setBackgroundColor(Color.parseColor("#00b084"))
 
                 //Button configure not enabled
+                binding.homeBtnPlayTimer.isEnabled = false
                 binding.homeBtnConfigureTimer.isEnabled = false
 
                 //Button pause enabled
@@ -399,6 +403,7 @@ class Home : AppCompatActivity() {
 
             //Button configure not enabled
             binding.homeBtnConfigureTimer.isEnabled = true
+            binding.homeBtnPlayTimer.isEnabled = true
             binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
 
             if(status !=3){
