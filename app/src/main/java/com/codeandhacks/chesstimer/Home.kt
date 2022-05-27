@@ -86,6 +86,7 @@ class Home : AppCompatActivity() {
             status = 0
 
             binding.homeBtnPlayTimer.isEnabled = false
+            binding.homeBtnConfigureTimer.isEnabled = false
             binding.homeBtnPlayTimer.setBackgroundColor(Color.GRAY)
             binding.homeBtnConfigureTimer.setBackgroundColor(Color.GRAY)
             binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
