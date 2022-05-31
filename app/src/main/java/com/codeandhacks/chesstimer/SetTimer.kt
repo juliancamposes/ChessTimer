@@ -28,7 +28,6 @@ class SetTimer : AppCompatActivity() {
         setContentView(R.layout.activity_set_timer)
         val extra = intent.extras!!
         incrementPrevious = extra.get("increment") as Int
-        Log.d(TAG, incrementPrevious.toString())
 
     }
 
@@ -182,11 +181,13 @@ class SetTimer : AppCompatActivity() {
             if(binding.setTimerSelectorIncrement.isChecked){
                 //Alert dialog to chose the increment
                 incrementToSave = binding.setTimerEtIncrement.text.toString().toInt()
+                Log.d(TAG, incrementToSave.toString())
             }
 
             if(binding.setTimerSelectorIncrement.isChecked == false){
                 incrementToSave = 0
                 binding.setTimerEtIncrement.setText("0")
+                Log.d(TAG, incrementToSave.toString())
             }
         }
 
@@ -198,9 +199,25 @@ class SetTimer : AppCompatActivity() {
         }
 
         binding.setTimerBtnSave.setOnClickListener {
+
+            if(binding.setTimerSelectorIncrement.isChecked){
+                //Alert dialog to chose the increment
+                incrementToSave = binding.setTimerEtIncrement.text.toString().toInt()
+                Log.d(TAG, incrementToSave.toString())
+            }
+
+            if(binding.setTimerSelectorIncrement.isChecked == false){
+                incrementToSave = 0
+                binding.setTimerEtIncrement.setText("0")
+                Log.d(TAG, incrementToSave.toString())
+            }
+
+
             hoursToSave = binding.setTimerHours.text.toString().toInt()
             minutesToSave = binding.setTimerMinutes.text.toString().toInt()
             secondsToSave = binding.setTimerSeconds.text.toString().toInt()
+
+            Log.d(TAG, incrementToSave.toString())
 
             val timeValues = TimeValues(1, hoursToSave, minutesToSave, secondsToSave, incrementToSave)
 
