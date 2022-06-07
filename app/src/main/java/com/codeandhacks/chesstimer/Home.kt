@@ -35,7 +35,7 @@ class Home : AppCompatActivity() {
     private var increment = 0
     private val context = this
     private var statusPause = 0
-
+    private var status = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class Home : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        var status = 3
+
 
         //Setting the time (if it have started or not)
         //And showing it
@@ -577,6 +577,25 @@ class Home : AppCompatActivity() {
             secondsPlayer2 = (seconds * 1000).toLong()
             timePlayer2Milis  = hoursPlayer2+minutesPlayer2+secondsPlayer2
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.homeBtnConfigureTimer.isEnabled = true
+        binding.homeBtnPlayTimer.isEnabled = true
+        binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
+
+        if(status !=3){
+            timerPlayer1.cancel()
+            timerPlayer2.cancel()
+            binding.homeBtnPauseTimer.setBackgroundColor(Color.GRAY)
+            binding.homeBtnPlayTimer.setBackgroundColor(Color.GREEN)
+            binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
+            binding.homeBtnRestart.setBackgroundColor(Color.GREEN)
+        }
+
+        status = 3
+        statusPause = 1
     }
 
 }
