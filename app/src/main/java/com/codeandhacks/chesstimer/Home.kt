@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
+import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import com.codeandhacks.chesstimer.database.Application.App
 import com.codeandhacks.chesstimer.databinding.ActivityHomeBinding
@@ -36,6 +37,8 @@ class Home : AppCompatActivity() {
     private val context = this
     private var statusPause = 0
     private var status = 3
+    private var timePlayer1MilisRestart = 0L
+    private var timePlayer2MilisRestart = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,18 @@ class Home : AppCompatActivity() {
         seconds = extra.get("seconds") as Int
         increment = extra.get("increment") as Int
         Log.d(TAG, increment.toString())
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(timePlayer1MilisRestart != 0L && timePlayer2MilisRestart !=0L){
+            timePlayer1Milis = timePlayer1MilisRestart
+            timePlayer2Milis = timePlayer2MilisRestart
+        } else {
+            setTimePlayers()
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -77,7 +92,7 @@ class Home : AppCompatActivity() {
 
         //Setting the time (if it have started or not)
         //And showing it
-        setTimePlayers()
+
         showTime()
 
         //Buttons actions
@@ -148,6 +163,7 @@ class Home : AppCompatActivity() {
                         }
                         binding.homeBtnPlayer2.setTextColor(Color.WHITE)
                         timePlayer2Milis = p0
+                        timePlayer2MilisRestart = p0
 
                     }
                     override fun onFinish() {
@@ -166,6 +182,7 @@ class Home : AppCompatActivity() {
 
                 //Increment
                 timePlayer1Milis += (increment * 1000).toLong()
+                timePlayer1MilisRestart += (increment * 1000).toLong()
             }
 
             if (status == 1) {
@@ -228,6 +245,7 @@ class Home : AppCompatActivity() {
                             binding.homeBtnPlayer2.text= timeToShow
                         }
                         timePlayer2Milis = p0
+                        timePlayer2MilisRestart = p0
                         binding.homeBtnPlayer2.setTextColor(Color.WHITE)
 
                     }
@@ -245,6 +263,7 @@ class Home : AppCompatActivity() {
                 status = 2
                 //Increment
                 timePlayer1Milis += (increment * 1000).toLong()
+                timePlayer1MilisRestart += (increment * 1000).toLong()
             }
         }
 
@@ -301,6 +320,7 @@ class Home : AppCompatActivity() {
                             binding.homeBtnPlayer1.text= timeToShow
                         }
                         timePlayer1Milis = p0
+                        timePlayer1MilisRestart = p0
                         binding.homeBtnPlayer1.setTextColor(Color.WHITE)
 
                     }
@@ -318,6 +338,7 @@ class Home : AppCompatActivity() {
                 status = 1
                 //Increment
                 timePlayer2Milis += (increment * 1000).toLong()
+                timePlayer2MilisRestart += (increment * 1000).toLong()
             }
 
             if (status == 2) {
@@ -379,9 +400,11 @@ class Home : AppCompatActivity() {
                         }
 
                         timePlayer1Milis = p0
+                        timePlayer1MilisRestart = p0
                         binding.homeBtnPlayer1.setTextColor(Color.WHITE)
 
                     }
+
                     override fun onFinish() {
                         binding.homeBtnPlayer1.setBackgroundColor(Color.RED)
                         timerPlayer2.cancel()
@@ -396,6 +419,7 @@ class Home : AppCompatActivity() {
                 status = 1
                 //Increment
                 timePlayer2Milis += (increment * 1000).toLong()
+                timePlayer2MilisRestart += (increment * 1000).toLong()
             }
         }
 
@@ -585,6 +609,9 @@ class Home : AppCompatActivity() {
         binding.homeBtnPlayTimer.isEnabled = true
         binding.homeBtnConfigureTimer.setBackgroundColor(Color.GREEN)
 
+        timePlayer1Milis = timePlayer1MilisRestart
+        timePlayer2Milis = timePlayer2MilisRestart
+
         if(status !=3){
             timerPlayer1.cancel()
             timerPlayer2.cancel()
@@ -596,6 +623,11 @@ class Home : AppCompatActivity() {
 
         status = 3
         statusPause = 1
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
     }
 
 }
